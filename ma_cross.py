@@ -76,7 +76,7 @@ import re
 import datetime
 # 隨機值模組
 import random
-
+from learn2 import generate_data
 
 
 # -------------------------------------------------------------
@@ -241,7 +241,7 @@ def draw_plot(option):
     import matplotlib.font_manager as fmgr
     font_dirs = [font_path]
     font_files = fmgr.findSystemFonts(fontpaths=font_dirs)
-    for font in fmgr.findSystemFonts(font_dirs):
+    for font in font_files:
         fmgr.fontManager.addfont(font)
     # font_list = fmgr.createFontList(font_files)
     # fmgr.fontManager.ttflist.extend(font_list)
@@ -289,7 +289,8 @@ def draw_plot(option):
 if __name__ == '__main__':
     print('主程序開始 ----------------------------')
     
-    data = random_data(days = 66)
+    # data = random_data(days = 66)
+    data = generate_data(init_price=100,data_days=101)
     # print(data)
 
     SMA(data, 5)
