@@ -111,4 +111,5 @@ def generate_data(init_price=15, data_days=20):
 
 if __name__ == '__main__':
 
-    generate_data()
+    data = generate_data(100,101)
+    print(data)
