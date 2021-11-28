@@ -105,11 +105,12 @@ def generate_data(init_price=15, data_days=20, save=False):
         # 隨機產生漲跌方向，1:漲; -1:跌
         # Code::宣告名為 step 的變數(漲跌方向)，初始值為隨機值，範圍 0 至 1
         # step = random.randrange(0,2,1)
-        step = random.randrange(0, 2, 1)
+        #step = 1 if random.randrange(0, 2, 1) else -1
+        step = (-1,1)[random.randint(0,1)]
         # Code::判斷 step 變數，若內容值符合 0 時表示條件成立
-        if step == 0:
-            # Code::條件成立時，將 step 變數，內容值指派為 -1
-            step = -1
+        # if step == 0:
+        #     # Code::條件成立時，將 step 變數，內容值指派為 -1
+        #     step = -1
         # 隨機產生漲跌幅度，台股最大漲跌幅度限制為 +/- 10%
         # Code::宣告名為 wave 的變數(幅度)，初始值為隨機值，範圍 0.02 至 0.1
         wave = random.uniform(0.02, 0.1)

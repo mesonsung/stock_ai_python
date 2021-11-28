@@ -290,7 +290,7 @@ if __name__ == '__main__':
     print('主程序開始 ----------------------------')
     
     # data = random_data(days = 66)
-    data = generate_data(init_price=100,data_days=101)
+    data = generate_data(init_price=100,data_days=100,save=True)
     # print(data)
 
     SMA(data, 5)
