@@ -29,7 +29,7 @@
 【模組資源】
 Python 有許多的功能模組(Module)，其中的 random 模組（內建模組）具有隨機亂數的各種產生方法
     random.randint(low, high) 依限定範圍產生隨機整數
-    random.iniform(low, high) 依限定範圍產生隨機浮點數
+    random.uniform(low, high) 依限定範圍產生隨機浮點數
 
 Python 安裝擴充模組 CLI 指令
 C:\> pip install <擴充模組名稱>
@@ -58,12 +58,35 @@ Python 字串格式化，以更清晰簡潔的方式組合「字串型態的變�
 
 # Code::匯入 random 模組
 
-
-
-
+import csv
 import random
 import datetime
-def generate_data(init_price=15, data_days=20):
+import os
+def save_data(data):
+    # 開啟輸出的 CSV 檔案
+    output_path = '%s/output' % os.path.abspath(os.getcwd())
+    isExist = os.path.exists(output_path)
+    if(isExist == False):
+        os.mkdir(output_path)
+    filename = '%s/%s.csv' % (output_path, datetime.datetime.now().strftime("%Y-%m-%d-%H%M%S"))
+    print(filename)
+    with open(filename, 'w', newline='') as csvfile:
+        # 定義欄位
+        fieldnames = ['date', 'weekday', 'price']
+
+        # 將 dictionary 寫入 CSV 檔
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+        # 寫入第一列的欄位名稱
+        writer.writeheader()
+
+        # 寫入資料
+        for item in data:
+            writer.writerow(item)
+    pass
+
+
+def generate_data(init_price=15, data_days=20, save=False):
     # 起始股價
     # Code::宣告名為 price 的變數，初始值指派為 15
     price = init_price
@@ -106,10 +129,12 @@ def generate_data(init_price=15, data_days=20):
         # 輸出隨機漫步的股價漲跌歷程
         # Code::格式化字串 '第 %d 天，價格 %.2f 元，漲跌幅 %.2f 元'，並依序套用變數 i + 1 、 price 與 wave
         # print('%s : 第 %d 天，價格 %.2f 元，漲跌幅 %.2f 元' %(day_data['date'], day, price, wave))
+    if(save == True):
+        save_data(generated_data)
+
     return generated_data
 
 
 if __name__ == '__main__':
 
-    data = generate_data(100,101)
-    print(data)
+    data = generate_data(100, 100, True)

@@ -76,7 +76,7 @@ import re
 import datetime
 # 隨機值模組
 import random
-from learn2 import generate_data
+from random_walk import generate_data
 
 
 # -------------------------------------------------------------
