@@ -231,7 +231,7 @@ def dict_attr_to_list(list_dict, dict_key):
 #   y: Y軸資料集合
 # 回傳:
 #   無
-def draw_plot(option):
+def draw_plot(option,file_name):
     # 取得中文字型目錄位置
     import os
     from pathlib import Path
@@ -243,8 +243,6 @@ def draw_plot(option):
     font_files = fmgr.findSystemFonts(fontpaths=font_dirs)
     for font in font_files:
         fmgr.fontManager.addfont(font)
-    # font_list = fmgr.createFontList(font_files)
-    # fmgr.fontManager.ttflist.extend(font_list)
     
     # matplotlib 套用中文字型
     import matplotlib.pyplot as plt
@@ -280,6 +278,8 @@ def draw_plot(option):
     # 顯示格線
     plt.grid(True)
     # 顯示互動圖表介面
+    if file_name!="":
+        plt.savefig(file_name)
     plt.show()
 
 # -------------------------------------------------------------
@@ -290,7 +290,12 @@ if __name__ == '__main__':
     print('主程序開始 ----------------------------')
     
     # data = random_data(days = 66)
-    data = generate_data(init_price=100,data_days=100,save=True)
+    params=dict();
+    params['init_price'] = 100
+    params['data_days'] = 100
+    params['max_wave'] = 0.1
+    params['save'] = False
+    csv_file, data = generate_data(**params)
     # print(data)
 
     SMA(data, 5)
@@ -360,7 +365,7 @@ if __name__ == '__main__':
             },
         ]
     }
-
-    draw_plot(plot_option)
+    file_name = csv_file.replace('csv','png')
+    draw_plot(plot_option,file_name)
     
     print('主程序結束 ----------------------------')

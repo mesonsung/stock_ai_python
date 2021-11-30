@@ -69,7 +69,6 @@ def save_data(data):
     if(isExist == False):
         os.mkdir(output_path)
     filename = '%s/%s.csv' % (output_path, datetime.datetime.now().strftime("%Y-%m-%d-%H%M%S"))
-    print(filename)
     with open(filename, 'w', newline='') as csvfile:
         # 定義欄位
         fieldnames = ['date', 'weekday', 'price']
@@ -83,10 +82,14 @@ def save_data(data):
         # 寫入資料
         for item in data:
             writer.writerow(item)
-    pass
+    return filename
 
 
-def generate_data(init_price=15, data_days=20, save=False):
+def generate_data(**params):
+    init_price=params['init_price']
+    data_days=params['data_days']
+    max_wave=params['max_wave']
+    save=params['save']
     # 起始股價
     # Code::宣告名為 price 的變數，初始值指派為 15
     price = init_price
@@ -112,8 +115,8 @@ def generate_data(init_price=15, data_days=20, save=False):
         #     # Code::條件成立時，將 step 變數，內容值指派為 -1
         #     step = -1
         # 隨機產生漲跌幅度，台股最大漲跌幅度限制為 +/- 10%
-        # Code::宣告名為 wave 的變數(幅度)，初始值為隨機值，範圍 0.02 至 0.1
-        wave = random.uniform(0.02, 0.1)
+        # Code::宣告名為 wave 的變數(幅度)，初始值為隨機值，範圍 0.0 至 0.1
+        wave = random.uniform(0.0, max_wave)
         # 依前次的股價，計算隨機漲跌幅度
         # Code::將運算式 price * wave * step 的運算結果，指派給 wave 變數
         wave = price * wave * step
@@ -130,12 +133,19 @@ def generate_data(init_price=15, data_days=20, save=False):
         # 輸出隨機漫步的股價漲跌歷程
         # Code::格式化字串 '第 %d 天，價格 %.2f 元，漲跌幅 %.2f 元'，並依序套用變數 i + 1 、 price 與 wave
         # print('%s : 第 %d 天，價格 %.2f 元，漲跌幅 %.2f 元' %(day_data['date'], day, price, wave))
+    file_name = ""
     if(save == True):
-        save_data(generated_data)
+        file_name = save_data(generated_data)
 
-    return generated_data
+    return file_name , generated_data
 
 
 if __name__ == '__main__':
 
-    data = generate_data(100, 100, True)
+    params=dict();
+    params['init_price'] = 100
+    params['data_days'] = 100
+    params['max_wave'] = 0.2
+    params['save'] = True
+    csv_file, data = generate_data(**params)
+    print(csv_file,data)
