@@ -187,10 +187,10 @@ class Dock(Animal):
     def __hungry(self):
         print(f'{self.name} 現在肚子餓了')
     def now(self):
-        if self.__is_hungry:
-            self.__hungry()
         import random
         self.__is_hungry = False if random.randint(0, 1) else True
+        if self.__is_hungry:
+            self.__hungry()
 
 # 類別實體化與操作
 dock = Dock()
@@ -286,6 +286,7 @@ class Actor:
             print(f'{target.name} 生命值剩下 {target.hp}')
             if callable(target.on_attack):
                 target.on_attack(self)
+
     def die(self):
         print(f'{self.name} 被消滅了')
         if callable(self.on_die):
@@ -330,17 +331,22 @@ hero.attack(boss)
 '''
 
 def hero_on_attack(who):
-    if hero.hp > 300:
-        hero.attack(who)
-    else:
-        print(f'{hero.name} 逃跑了')
+    hero.attack(who)
+    # if hero.hp > 300:
+    #     hero.attack(who)
+    # else:
+    #     print(f'{hero.name} 逃跑了')
 hero.on_attack = hero_on_attack
 
-
-def boss_on_attack(who):
+def boss_on_attack(who): 
     boss.attack(who)
 boss.on_attack = boss_on_attack
 
+def actor_on_die(who):
+    print(f'{who.name} has dead!')
+
+hero.on_die = actor_on_die
+boss.on_die = actor_on_die
 
 print(f'讓 {boss.name} 發起攻擊，目標是 {hero.name}')
 boss.attack(hero)
