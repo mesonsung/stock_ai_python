@@ -1,0 +1,181 @@
+# VSCode 擴充套件
+#   REST Client
+#   Author: Huachao Mao
+#   market: https://marketplace.visualstudio.com/items?itemName=humao.rest-client
+
+
+# ========================================================================================
+
+###
+
+# 技術分析圖表-交易報價資料
+# pred : 資料的頻率 1m(當沖)/5m/10m/30m : 1分/5分/10分/30分 d(標準):日 w:週 m:月
+# sym : 股票代碼
+# _ ： 時間
+
+@perd = 1m
+@sym = 2603
+@datetime = {{$timestamp}}
+
+
+GET https://tw.quote.finance.yahoo.net/quote/q
+?type=ta&perd={{perd}}&mkt=10&sym={{sym}}&v=1&callback=jQuery111306899680572507447_1639804892397&_={{datetime}}
+Referer: https://tw.stock.yahoo.com/quote/{{sym}}/technical-analysis
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36
+
+# ========================================================================================
+
+###
+
+# 基本資料/股利/收益/利潤
+GET https://tw.stock.yahoo.com/_td-stock/api/resource/StockServices.symbolOverview;errorPolicy=all;showUpcoming=true;symbol={{sym}}.TW
+?bkt=&device=desktop&ecma=modern&feature=ecmaModern%2CuseVersionSwitch%2CuseNewQuoteTabColor&intl=tw&lang=zh-Hant-TW&partner=none&prid=d93cp99grqmj8&region=TW&site=finance&tz=Asia%2FTaipei&ver=1.2.1207&returnMeta=true
+Referer: https://tw.stock.yahoo.com/quote/{{sym}}/institutional-trading
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36
+
+
+# ========================================================================================
+
+###
+
+# 籌碼-法人買賣總覽-當日
+GET https://tw.stock.yahoo.com/_td-stock/api/resource/StockServices.trades;limit=1;period=day;sortBy=-date;symbol={{sym}}.TW
+?bkt=&device=desktop&ecma=modern&feature=ecmaModern%2CuseVersionSwitch%2CuseNewQuoteTabColor&intl=tw&lang=zh-Hant-TW&partner=none&prid=d93cp99grqmj8&region=TW&site=finance&tz=Asia%2FTaipei&ver=1.2.1207&returnMeta=true
+Referer: https://tw.stock.yahoo.com/quote/{{sym}}/institutional-trading
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36
+
+###
+
+# 籌碼-法人買賣總覽-累計
+GET https://tw.stock.yahoo.com/_td-stock/api/resource/StockServices.trades;accumulation=true;symbol={{sym}}.TW
+?bkt=&device=desktop&ecma=modern&feature=ecmaModern,useVersionSwitch,useNewQuoteTabColor&intl=tw&lang=zh-Hant-TW&partner=none&prid=d93cp99grqmj8&region=TW&site=finance&tz=Asia/Taipei&ver=1.2.1207&returnMeta=true
+Referer: https://tw.stock.yahoo.com/quote/{{sym}}/institutional-trading
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36
+
+###
+
+# 籌碼-法人買賣超
+# limit 筆數: day:210, week:60, month:40, quarter:20
+# period 頻率: day:日, week:週, month:月, quarter:季
+GET https://tw.stock.yahoo.com/_td-stock/api/resource/StockServices.tradesWithQuoteStats;limit=365;period=day;symbol={{sym}}.TW
+?bkt=&device=desktop&ecma=modern&feature=ecmaModern,useVersionSwitch,useNewQuoteTabColor&intl=tw&lang=zh-Hant-TW&partner=none&prid=6j4eag1grqkqt&region=TW&site=finance&tz=Asia/Taipei&ver=1.2.1207&returnMeta=true
+Referer: https://tw.stock.yahoo.com/quote/{{sym}}/institutional-trading
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36
+
+###
+
+# 籌碼-主力進出
+GET https://tw.stock.yahoo.com/_td-stock/api/resource/StockServices.brokerTrades;limit=1;sortBy=-date;symbol={{sym}}.TW
+?bkt=&device=desktop&ecma=modern&feature=ecmaModern%2CuseVersionSwitch%2CuseNewQuoteTabColor&intl=tw&lang=zh-Hant-TW&partner=none&prid=6j4eag1grqkqt&region=TW&site=finance&tz=Asia%2FTaipei&ver=1.2.1207&returnMeta=true
+Referer: https://tw.stock.yahoo.com/quote/{{sym}}/broker-trading
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36
+
+
+###
+
+# 籌碼-資券變化
+GET https://tw.stock.yahoo.com/_td-stock/api/resource/StockServices.creditsWithQuoteStats;dataKey=marginBalanceChart;limit=365;symbol={{sym}}.TW;tabKey=1y
+?bkt=&device=desktop&ecma=modern&feature=ecmaModern%2CuseVersionSwitch%2CuseNewQuoteTabColor&intl=tw&lang=zh-Hant-TW&partner=none&prid=6j4eag1grqkqt&region=TW&site=finance&tz=Asia%2FTaipei&ver=1.2.1207&returnMeta=true
+Referer: https://tw.stock.yahoo.com/quote/{{sym}}/margin
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36
+
+
+###
+
+# 籌碼-大戶籌碼
+GET https://tw.stock.yahoo.com/_td-stock/api/resource/StockServices.holderStats;date=2020-12-19T11%3A35%3A41%2B08%3A00-2021-12-18T11%3A35%3A41%2B08%3A00;includedFields=quoteStats;limit=52;sortBy=-date;symbol={{sym}}.TW
+?bkt=&device=desktop&ecma=modern&feature=ecmaModern%2CuseVersionSwitch%2CuseNewQuoteTabColor&intl=tw&lang=zh-Hant-TW&partner=none&prid=6j4eag1grqkqt&region=TW&site=finance&tz=Asia%2FTaipei&ver=1.2.1207&returnMeta=true
+Referer: https://tw.stock.yahoo.com/quote/{{sym}}/major-holders
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36
+
+
+# ========================================================================================
+
+###
+
+# 股利
+# date
+# limit
+# showUpcoming 
+# sortBy 排序
+GET https://tw.stock.yahoo.com/_td-stock/api/resource/StockServices.dividends;date=;limit=100;showUpcoming=true;sortBy=-date;symbol={{sym}}.TW
+?bkt=&device=desktop&ecma=modern&feature=ecmaModern%2CuseVersionSwitch%2CuseNewQuoteTabColor&intl=tw&lang=zh-Hant-TW&partner=none&prid=d93cp99grqmj8&region=TW&site=finance&tz=Asia%2FTaipei&ver=1.2.1207&returnMeta=true
+Referer: https://tw.stock.yahoo.com/quote/{{sym}}/dividend
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36
+
+
+# ========================================================================================
+
+###
+
+# 營收
+# period 頻率: month:月, quarter:季, year:年
+GET https://tw.stock.yahoo.com/_td-stock/api/resource/StockServices.revenues;period=month;symbol={{sym}}.TW
+?bkt=&device=desktop&ecma=modern&feature=ecmaModern%2CuseVersionSwitch%2CuseNewQuoteTabColor&intl=tw&lang=zh-Hant-TW&partner=none&prid=d93cp99grqmj8&region=TW&site=finance&tz=Asia%2FTaipei&ver=1.2.1207&returnMeta=true
+Referer: https://tw.stock.yahoo.com/quote/{{sym}}/revenue
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36
+
+
+###
+
+# 營收-每股盈餘
+# period 頻率: quarter:單季, quarterSum:累季, quarterSum4:近四季, year:年度
+GET ttps://tw.stock.yahoo.com/_td-stock/api/resource/StockServices.revenues;includedFields=priceAssessment;period=quarter;symbol={{sym}}.TW
+?bkt=&device=desktop&ecma=modern&feature=ecmaModern%2CuseVersionSwitch%2CuseNewQuoteTabColor&intl=tw&lang=zh-Hant-TW&partner=none&prid=d93cp99grqmj8&region=TW&site=finance&tz=Asia%2FTaipei&ver=1.2.1207&returnMeta=true
+Referer: https://tw.stock.yahoo.com/quote/{{sym}}/eps
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36
+
+
+###
+
+# 營收-損益表
+# period 頻率: quarter:單季, quarterSum:累季, year:年度
+GET ttps://tw.stock.yahoo.com/_td-stock/api/resource/StockServices.incomeStatements-growthAnalyses;limit=20;period=quarter;sortBy=-date;symbol={{sym}}.TW
+?bkt=&device=desktop&ecma=modern&feature=ecmaModern%2CuseVersionSwitch%2CuseNewQuoteTabColor&intl=tw&lang=zh-Hant-TW&partner=none&prid=d93cp99grqmj8&region=TW&site=finance&tz=Asia%2FTaipei&ver=1.2.1207&returnMeta=true
+Referer: https://tw.stock.yahoo.com/quote/2317/income-statement
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36
+
+
+###
+
+# 營收-資產負債表
+GET https://tw.stock.yahoo.com/_td-stock/api/resource/StockServices.balanceSheets;limit=20;period=quarter;sortBy=-date;symbol={{sym}}.TW
+?bkt=&device=desktop&ecma=modern&feature=ecmaModern%2CuseVersionSwitch%2CuseNewQuoteTabColor&intl=tw&lang=zh-Hant-TW&partner=none&prid=d93cp99grqmj8&region=TW&site=finance&tz=Asia%2FTaipei&ver=1.2.1207&returnMeta=true
+Referer: https://tw.stock.yahoo.com/quote/2317/balance-sheet
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36
+
+
+###
+
+# 營收-現金流量表
+GET https://tw.stock.yahoo.com/_td-stock/api/resource/StockServices.cashFlowStatements;limit=20;period=quarter;sortBy=-date;symbol={{sym}}.TW
+?bkt=&device=desktop&ecma=modern&feature=ecmaModern%2CuseVersionSwitch%2CuseNewQuoteTabColor&intl=tw&lang=zh-Hant-TW&partner=none&prid=d93cp99grqmj8&region=TW&site=finance&tz=Asia%2FTaipei&ver=1.2.1207&returnMeta=true
+Referer: https://tw.stock.yahoo.com/quote/2317/cash-flow-statement
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36
+
+
+# ========================================================================================
+
+###
+
+# 同業-漲跌幅
+GET https://tw.stock.yahoo.com/_td-stock/api/resource/StockServices.changePercentHistory;symbol={{sym}}.TW
+?bkt=&device=desktop&ecma=modern&feature=ecmaModern%2CuseVersionSwitch%2CuseNewQuoteTabColor&intl=tw&lang=zh-Hant-TW&partner=none&prid=d93cp99grqmj8&region=TW&site=finance&tz=Asia%2FTaipei&ver=1.2.1207&returnMeta=true
+Referer: https://tw.stock.yahoo.com/quote/2317/compare
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36
+
+###
+
+# 同業-每股盈餘
+GET https://tw.stock.yahoo.com/_td-stock/api/resource/StockServices.epsHistorySymbols;exchange=TAI;sectorId=47
+?bkt=&device=desktop&ecma=modern&feature=ecmaModern%2CuseVersionSwitch%2CuseNewQuoteTabColor&intl=tw&lang=zh-Hant-TW&partner=none&prid=d93cp99grqmj8&region=TW&site=finance&tz=Asia%2FTaipei&ver=1.2.1207&returnMeta=true
+Referer: https://tw.stock.yahoo.com/quote/2317/compare
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36
+
+###
+
+# 同業-殖利率
+GET https://tw.stock.yahoo.com/_td-stock/api/resource/StockServices.ytmHistorySymbols;exchange=TAI;sectorId=47
+?bkt=&device=desktop&ecma=modern&feature=ecmaModern%2CuseVersionSwitch%2CuseNewQuoteTabColor&intl=tw&lang=zh-Hant-TW&partner=none&prid=d93cp99grqmj8&region=TW&site=finance&tz=Asia%2FTaipei&ver=1.2.1207&returnMeta=true
+Referer: https://tw.stock.yahoo.com/quote/2317/compare
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36
